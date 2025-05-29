@@ -1,30 +1,44 @@
-# React + TypeScript + Vite
+# 💰 DT Money
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O **DT Money** é uma aplicação web para controle financeiro pessoal, permitindo que os usuários registrem entradas e saídas, visualizem transações e acompanhem o saldo total de forma intuitiva.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Styled Components](https://styled-components.com/)
 
-## Expanding the ESLint configuration
+## 💻 Funcionalidades
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Cadastro de transações (entradas e saídas)
+- Listagem de transações
+- Resumo com total de entradas, saídas e saldo
+- Validação de formulários
+- Armazenamento das transações
 
-- Configure the top-level `parserOptions` property like this:
+## 📦 Como Rodar o Projeto
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org/) (versão 18.17.1 ou superior)
+- [pnpm](https://pnpm.io/) (gerenciador de pacotes)
+
+### Instalação
+
+```bash
+# Clone o repositório
+git clone https://github.com/lucasdoloh0v/dt-money.git
+
+# Acesse o diretório do projeto
+cd dt-money
+
+# Instale as dependências
+pnpm install
+
+# Inicie o json-server
+npx json-server server.json -p 3333
+
+# Inicie o servidor de desenvolvimento
+pnpm dev
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
