@@ -42,3 +42,5 @@ npx json-server server.json -p 3333
 # Inicie o servidor de desenvolvimento
 pnpm dev
 ```
+
+A aplicação estará disponível em `http://localhost:3000`.
