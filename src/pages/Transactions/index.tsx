@@ -6,7 +6,7 @@ import { dateFormatter, priceFormatter } from '../../utils/formater'
 import { Container, PriceHighlight, TransactionsTable } from './styles'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
 import { useAuthenticator } from '@aws-amplify/ui-react'
-import { fetchUserAttributes } from 'aws-amplify/auth'
+import { fetchAuthSession, fetchUserAttributes } from 'aws-amplify/auth'
 import { useEffect } from 'react'
 
 export function Transactions() {
@@ -21,12 +21,24 @@ export function Transactions() {
   }
 
   useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const session = await fetchAuthSession();
+        console.log('Session:', session)
+      } catch (error) {
+        console.error('Error fetching session:', error)
+        await signOut();
+        window.location.href = '/login';
+      }
+    }
+    
     const getUser = async () => {
       const a = await fetchUserAttributes()
       console.log(a)
     }
 
     getUser()
+    checkSession()
   }, [])
 
   return (

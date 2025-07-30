@@ -6,6 +6,29 @@ import { TransactionProvider } from './contexts/TransactionsContext'
 import { withAuthenticator } from '@aws-amplify/ui-react'
 
 import { LoginHeader } from './Components/LoginHeader'
+import { signUp } from 'aws-amplify/auth'
+import { api } from './lib/axios'
+
+import type { SignUpInput, SignUpOutput } from 'aws-amplify/auth'
+
+const services = {
+    async handleSignUp(input: SignUpInput): Promise<SignUpOutput> {
+      const response = await signUp(input)
+
+      const email = input.options?.userAttributes?.email
+      const name = input.options?.userAttributes?.name
+
+      console.log('SignUp response:', response)
+      if (response.userId ) {
+        await api.post('/users', {
+          userId: response.userId,
+          email: email,
+          name: name,
+        })
+      }
+      return response
+    },
+  }
 
 function App() {
   return (
@@ -19,8 +42,6 @@ function App() {
   )
 }
 
-console.log(import.meta.env.VITE_AMBIENT)
-
 const AppComponent = import.meta.env.VITE_AMBIENT === 'DEV' 
   ? withAuthenticator(App, {
     components: {
@@ -28,6 +49,7 @@ const AppComponent = import.meta.env.VITE_AMBIENT === 'DEV'
     },
     loginMechanisms: ['email'],
     signUpAttributes: ['name', 'email'],
+    services: services,
   })
   : App
 
