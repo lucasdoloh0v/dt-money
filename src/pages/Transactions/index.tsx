@@ -5,15 +5,33 @@ import { Summary } from '../../Components/Summary'
 import { dateFormatter, priceFormatter } from '../../utils/formater'
 import { Container, PriceHighlight, TransactionsTable } from './styles'
 import { TransactionsContext } from '../../contexts/TransactionsContext'
+import { useAuthenticator } from '@aws-amplify/ui-react'
+import { fetchUserAttributes } from 'aws-amplify/auth'
+import { useEffect } from 'react'
 
 export function Transactions() {
   const transactions = useContextSelector(TransactionsContext, (context) => {
     return context.transactions
   })
 
+  const { signOut } = useAuthenticator((context) => [context.signOut])
+
+  const handleSignOut = () => {
+    signOut()
+  }
+
+  useEffect(() => {
+    const getUser = async () => {
+      const a = await fetchUserAttributes()
+      console.log(a)
+    }
+
+    getUser()
+  }, [])
+
   return (
     <>
-      <Header />
+      <Header onSignOut={handleSignOut} />
       <Summary />
 
       <Container>
