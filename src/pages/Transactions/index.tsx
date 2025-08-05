@@ -1,49 +1,47 @@
-import { useContextSelector } from 'use-context-selector'
-import { Header } from '../../Components/Header'
-import { SearchForm } from '../../Components/SearchForm'
-import { Summary } from '../../Components/Summary'
-import { dateFormatter, priceFormatter } from '../../utils/formater'
-import { Container, PriceHighlight, TransactionsTable } from './styles'
-import { TransactionsContext } from '../../contexts/TransactionsContext'
-import { useAuthenticator } from '@aws-amplify/ui-react'
-import { fetchAuthSession, fetchUserAttributes } from 'aws-amplify/auth'
-import { useEffect } from 'react'
+import { useContextSelector } from 'use-context-selector';
+import { Header } from '../../Components/Header';
+import { SearchForm } from '../../Components/SearchForm';
+import { Summary } from '../../Components/Summary';
+import { dateFormatter, priceFormatter } from '../../utils/formater';
+import { Container, PriceHighlight, TransactionsTable } from './styles';
+import { TransactionsContext } from '../../contexts/TransactionsContext';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { fetchUserAttributes } from 'aws-amplify/auth';
+import { useEffect, useState } from 'react';
+import { Loading } from '../../Components/Loading';
 
 export function Transactions() {
+  const [isLoading, setIsLoading] = useState(true);
+  
   const transactions = useContextSelector(TransactionsContext, (context) => {
-    return context.transactions
-  })
+    return context.transactions;
+  });
 
-  const { signOut } = useAuthenticator((context) => [context.signOut])
-
-  const handleSignOut = () => {
-    signOut()
-  }
+  const { signOut } = useAuthenticator((context) => [context.signOut]);
 
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const session = await fetchAuthSession();
-        console.log('Session:', session)
-      } catch (error) {
-        console.error('Error fetching session:', error)
-        await signOut();
-        window.location.href = '/login';
-      }
-    }
-    
     const getUser = async () => {
-      const a = await fetchUserAttributes()
-      console.log(a)
-    }
+      try {
+        const attributes = await fetchUserAttributes();
+        console.log(attributes);
+      } catch (error) {
+        console.error('Error fetching user attributes:', error);
+        await signOut();
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    getUser()
-    checkSession()
-  }, [])
+    getUser();
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
-      <Header onSignOut={handleSignOut} />
+      <Header />
       <Summary />
 
       <Container>
@@ -53,7 +51,7 @@ export function Transactions() {
             {transactions.map((transaction) => {
               return (
                 <tr key={transaction.id}>
-                  <td width="50%">{transaction.description}</td>
+                  <td width='50%'>{transaction.description}</td>
                   <td>
                     <PriceHighlight variant={transaction.type}>
                       {transaction.type === 'outcome' && '- '}
@@ -65,11 +63,11 @@ export function Transactions() {
                     {dateFormatter.format(new Date(transaction.createdAt))}
                   </td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </TransactionsTable>
       </Container>
     </>
-  )
+  );
 }

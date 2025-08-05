@@ -1,9 +1,9 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const Container = styled.header`
   background: ${(props) => props.theme['gray-900']};
   padding: 2.5rem 0 7.5rem;
-`
+`;
 
 export const Content = styled.div`
   width: 100%;
@@ -14,7 +14,7 @@ export const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+ 
   button {
     height: 50px;
     border: 0;
@@ -30,4 +30,10 @@ export const Content = styled.div`
       transition: background 0.2s;
     }
   }
+`;
+  
+export const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `

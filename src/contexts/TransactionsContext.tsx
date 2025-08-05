@@ -4,7 +4,8 @@ import { createContext } from 'use-context-selector'
 import { api } from '../lib/axios'
 
 interface Transaction {
-  id: number
+  id: string
+  userId: string
   description: string
   type: 'income' | 'outcome'
   price: number

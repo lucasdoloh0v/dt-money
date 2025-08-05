@@ -1,26 +1,27 @@
-import * as Dialog from '@radix-ui/react-dialog'
+import * as Dialog from '@radix-ui/react-dialog';
 
-import { Container, Content } from './styles'
+import { Container, Content, RightSection } from './styles';
 
-import logoImg from '../../assets/logo.svg'
-import { NewTransactionModal } from '../NewTransactionModal'
+import logoImg from '../../assets/logo.svg';
+import { NewTransactionModal } from '../NewTransactionModal';
+import { UserMenu } from '../UserMenu';
 
-export function Header({ onSignOut }: { onSignOut: () => void }) {
+export function Header() {
   return (
     <Container>
       <Content>
-        <img src={logoImg} alt="" />
+        <img src={logoImg} alt='' />
+        <RightSection>
+          <Dialog.Root>
+            <Dialog.Trigger asChild>
+              <button>Nova transação</button>
+            </Dialog.Trigger>
 
-        <button onClick={onSignOut}>Sair</button>
-
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
-            <button>Nova transação</button>
-          </Dialog.Trigger>
-
-          <NewTransactionModal />
-        </Dialog.Root>
+            <NewTransactionModal />
+          </Dialog.Root>
+          <UserMenu />
+        </RightSection>
       </Content>
     </Container>
-  )
+  );
 }
