@@ -25,7 +25,7 @@ const newTransactionFormSchema = z.object({
 
 type FormInputs = z.infer<typeof newTransactionFormSchema>
 
-export function NewTransactionModal() {
+export function NewTransactionModal({ setOpen }: { setOpen: (open: boolean) => void }) {
   const { register, handleSubmit, control, reset } = useForm<FormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
   })
@@ -37,10 +37,11 @@ export function NewTransactionModal() {
     },
   )
 
-  function handleCreateNewTransaction(data: FormInputs) {
-    createTransaction(data)
+  async function handleCreateNewTransaction(data: FormInputs) {
+    await createTransaction(data)
 
     reset()
+    setOpen(false)
   }
 
   return (

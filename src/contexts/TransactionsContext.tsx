@@ -13,6 +13,21 @@ interface Transaction {
   createdAt: string
 }
 
+interface TransactionResp {
+  id: string
+  'user-id': string
+  description: string
+  type: 'income' | 'outcome'
+  price: number
+  category: string
+  'created-at': string
+}
+
+interface TransactionPostResp {
+  message: string,
+  transaction: TransactionResp
+}
+
 interface CreateTransactionInput {
   description: string
   price: number
@@ -36,13 +51,25 @@ export function TransactionProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
   const fetchTransactions = useCallback(async (query?: string) => {
-    const { data } = await api.get('/transactions', {
+    const { data } = await api.get<TransactionResp[]>('/transactions', {
       params: {
         q: query,
       },
     })
 
-    setTransactions(data)
+    const formattedData = data.map((transaction) => ({
+      id: transaction.id,
+      userId: transaction['user-id'],
+      description: transaction.description,
+      type: transaction.type,
+      price: transaction.price,
+      category: transaction.category,
+      createdAt: transaction['created-at'],
+    }))
+
+    console.log('Fetched transactions:', formattedData)
+
+    setTransactions(formattedData)
   }, [])
 
   useEffect(() => {
@@ -50,12 +77,19 @@ export function TransactionProvider({ children }: TransactionsProviderProps) {
   }, [fetchTransactions])
 
   const createTransaction = async (data: CreateTransactionInput) => {
-    const response = await api.post('/transactions', {
+    const response = await api.post<TransactionPostResp>('/transactions', {
       ...data,
-      createdAt: new Date(),
     })
 
-    setTransactions((prev) => [...prev, response.data])
+    setTransactions((prev) => [...prev, {
+      id: response.data.transaction.id,
+      userId: response.data.transaction['user-id'],
+      description: response.data.transaction.description,
+      type: response.data.transaction.type,
+      price: response.data.transaction.price,
+      category: response.data.transaction.category,
+      createdAt: response.data.transaction['created-at'],
+    }])
   }
   return (
     <TransactionsContext.Provider
