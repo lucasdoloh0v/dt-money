@@ -18,7 +18,6 @@ const services = {
       const email = input.options?.userAttributes?.email
       const name = input.options?.userAttributes?.name
 
-      console.log('SignUp response:', response)
       if (response.userId ) {
         await api.post('/users', {
           userId: response.userId,

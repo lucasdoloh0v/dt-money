@@ -67,8 +67,6 @@ export function TransactionProvider({ children }: TransactionsProviderProps) {
       createdAt: transaction['created-at'],
     }))
 
-    console.log('Fetched transactions:', formattedData)
-
     setTransactions(formattedData)
   }, [])
 

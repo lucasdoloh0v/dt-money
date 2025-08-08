@@ -23,7 +23,6 @@ export function Transactions() {
     const getUser = async () => {
       try {
         const attributes = await fetchUserAttributes();
-        console.log(attributes);
       } catch (error) {
         console.error('Error fetching user attributes:', error);
         await signOut();
