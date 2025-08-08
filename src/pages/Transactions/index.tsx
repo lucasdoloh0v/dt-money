@@ -22,7 +22,7 @@ export function Transactions() {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const attributes = await fetchUserAttributes();
+        await fetchUserAttributes();
       } catch (error) {
         console.error('Error fetching user attributes:', error);
         await signOut();
