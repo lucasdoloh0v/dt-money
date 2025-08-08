@@ -22,3 +22,7 @@ O **DT Money** é uma aplicação web para controle financeiro pessoal, permitin
 Acesse a versão publicada do projeto aqui:
 
 [DT-Money](https://master.dzhd80n1jouyd.amplifyapp.com/)
+
+## Acesse as funções servless para esta aplicação
+
+[Lambdas](https://github.com/lucasdoloh0v/dt-money-lambda-functions)
